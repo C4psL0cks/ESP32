@@ -1,3 +1,7 @@
+//vcc -> 5v
+//UR -> TX green
+//UT -> RX white
+//GND -> GND
 #include "esp_camera.h"
 #include <WiFi.h>
 #include "esp_timer.h"
