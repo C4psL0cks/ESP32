@@ -1,3 +1,11 @@
+// ESP32	INMP441
+// GND	L/R
+// 15	WS
+// 2	SCK
+// 13	SD
+// 3V3	VDD
+// GND	GND
+
 #include <driver/i2s.h>
 #include <SPIFFS.h>
 
