@@ -17,12 +17,15 @@ Adafruit_Fingerprint finger = Adafruit_Fingerprint(&Serial2);
 
 struct tm timeinfo;
 const char* ntpServer = "pool.ntp.org";
-const long  gmtOffset_sec = 0;
+const long  gmtOffset_sec = 25200;
 const int   daylightOffset_sec = 3600;
 char daysw[10];
 char days[10];
 char Month[10];
 char years[10];
+char h[3];
+char m[3];
+char s[3];
 String dataString = "";
 String host = "http://192.168.0.105/esp32scan/apis.php";
 boolean check = false;
@@ -30,6 +33,7 @@ boolean check = false;
 void setup() {
 
   Serial.begin(115200);
+  Serial.println(LINE.getVersion());
   pinMode(LED_STATE, OUTPUT);
   digitalWrite(LED_STATE, LOW);
   Serial.println();
@@ -47,11 +51,11 @@ void setup() {
 
   //  writeFile(SD, "/datalog_1.csv", "ID, NAME, DATETIME \r\n");
 
-  File file = SD.open("/datalog_1.csv");
+  File file = SD.open("/datalog_2.csv");
   if (!file) {
     Serial.println("File doens't exist");
     Serial.println("Creating file...");
-    writeFile(SD, "/datalog_1.csv", "ID, NAME, DATETIME \r\n");
+    writeFile(SD, "/datalog_2.csv", "ID, NAME, DATETIME \r\n");
   }
   else {
     Serial.println("File already exists");
@@ -104,10 +108,17 @@ void loop() {
   }
 
   int ID = getFingerprintIDez();
+
+  //  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+
   strftime(daysw, 10, "%A", &timeinfo);
   strftime(days, 10, "%d", &timeinfo);
   strftime(Month, 10, "%B", &timeinfo);
   strftime(years, 10, "%Y", &timeinfo);
+  strftime(h, 3, "%H", &timeinfo);
+  strftime(m, 3, "%M", &timeinfo);
+  strftime(s, 3, "%S", &timeinfo);
+
 
   if (ID > 0) {
     http.begin(host);
@@ -127,15 +138,15 @@ void loop() {
       dataString += ",";
       dataString += String(payload);
       dataString += ",";
-      dataString += String(daysw) + " " + String(days) + " " + String(Month) + " " + String(years);
+      dataString += String(h) + ":" + String(m) + ":" + String(s) + " " + String(daysw) + " " + String(days) + " " + String(Month) + " " + String(years);
       dataString += "\r\n";
 
       Serial.println("SAVE:" + String(dataString));
 
       if (check == false && ID != -1) {
-        appendFile(SD, "/datalog_1.csv", dataString.c_str());
+        appendFile(SD, "/datalog_2.csv", dataString.c_str());
         digitalWrite(LED_STATE, HIGH);
-        LINE.notify("ID:" + String(ID) + "NAME:" + String(payload) + "TIME:" + String(daysw) + " " + String(days) + " " + String(Month) + " " + String(years));
+        LINE.notify("ID:" + String(ID) + "NAME:" + String(payload) + "TIME:" + String(h) + ":" + String(m) + ":" + String(s) + " " + String(daysw) + " " + String(days) + " " + String(Month) + " " + String(years));
         check = true;
       }
     }
@@ -143,7 +154,7 @@ void loop() {
   }
   check = false;
   dataString = "";
-  readFile(SD, "/datalog_1.csv");
+  //  readFile(SD, "/datalog_2.csv");
   digitalWrite(LED_STATE, LOW);
   delay(1000);
 }
