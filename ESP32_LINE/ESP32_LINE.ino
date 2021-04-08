@@ -23,7 +23,7 @@ void setup() {
 
   LINE.setToken(LINE_TOKEN);
 
-  LINE.notify("อุณหภูมิ เกินกำหนด");
+  LINE.notify("ทดสอบ");
 
 
 }

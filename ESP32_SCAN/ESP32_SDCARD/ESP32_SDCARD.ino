@@ -1,10 +1,8 @@
-//#include "FS.h"
-//#include "SD.h"
-//#include "SPI.h"
 
 #include <FS.h>
 #include <SD.h>
 #include <SPI.h>
+
 
 void writeFile(fs::FS &fs, const char * path, const char * message) {
   Serial.printf("Writing file: %s\n", path);
@@ -21,6 +19,7 @@ void writeFile(fs::FS &fs, const char * path, const char * message) {
   }
   file.close();
 }
+
 
 void appendFile(fs::FS &fs, const char * path, const char * message) {
   Serial.printf("Appending to file: %s\n", path);
@@ -54,6 +53,7 @@ void readFile(fs::FS &fs, const char * path) {
   }
   file.close();
 }
+
 
 void listAllFiles() {
 
@@ -117,9 +117,10 @@ void listSD(void) {
 }
 
 
-//
+
 void setup() {
   Serial.begin(115200);
+
 
   SD.begin(5);
   if (!SD.begin(5)) {
@@ -128,8 +129,11 @@ void setup() {
   }
 
   listAllFiles();
+
+ 
   listSD();
 
+  
   writeFile(SD, "/datalog_ESP32.txt", "Time, Humidity, Temperature \r\n");
 
 }
@@ -149,7 +153,10 @@ void loop() {
   dataString += "\r\n";
 
   Serial.println(dataString);
+  
+
   appendFile(SD, "/datalog_ESP32.txt", dataString.c_str());
+
   readFile(SD, "/datalog_ESP32.txt");
 
   delay(2000);

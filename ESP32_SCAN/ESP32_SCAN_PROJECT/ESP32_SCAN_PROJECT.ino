@@ -92,12 +92,16 @@ void setup() {
   Serial.println();
 
   LINE.setToken(LINE_TOKEN);
+
+  LINE.notify("เริ่มต้นการทำงาน....");
+  delay(100);
+
   digitalWrite(LED_STATE, HIGH);
 
   // Init and get the time
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 
-  LINE.notify("เริ่มต้นการทำงาน....");
+  //  LINE.notify("เริ่มต้นการทำงาน....");
 }
 
 void loop() {
