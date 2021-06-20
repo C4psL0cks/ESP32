@@ -1,0 +1,4 @@
+https://www.aranacorp.com/en/using-an-ac-dimmer-with-esp32/
+https://github.com/RobotDynOfficial/RBDDimmer
+https://github.com/tzapu/WiFiManager
+https://github.com/mishmashlabs/ESP32_PWM_SLIDER_WEBSERVER/blob/master/ESP32_PWM_SLIDER_DIO/ESP32_PWM_SLIDER_DIO.ino
