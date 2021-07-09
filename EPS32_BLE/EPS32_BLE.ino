@@ -1,3 +1,4 @@
+//https://meetjoeblog.com/2021/05/15/mijia-temperature-sensor-esp32/?fbclid=IwAR0GRsC53euUh79ZnAomx6rWDO-ez2Jf5dihN4ya4bR0gBg7bflp-ayLvfE
 #include <BLEDevice.h>
 BLEClient* pClient;
 
